@@ -1,0 +1,122 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends ColorRect
+
+
+var rect = Rect2(0,0, 0,0) setget set_rect, get_rect
+func set_rect(arg):
+	rect = arg
+	$Polygon2D.position = rect.position
+	$Polygon2D.scale = rect.size
+func get_rect():
+	return rect
+
+func set_color(arg):
+	color = arg
+	$Polygon2D.color = arg
+
+
+func _ready():
+	rect = Rect2($Polygon2D.position, $Polygon2D.scale)
+
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		if is_in_group(\"held\"):
+			rect_position += event.relative 
+#		if is_in_group(\"resize\"):
+#			rect_size += event.relative
+#			$Polygon2D.scale += event.relative * 0.01
+	
+	if event is InputEventMouseButton:
+		if not event.pressed:
+			if is_in_group(\"held\"):  remove_from_group(\"held\")
+			if is_in_group(\"resize\"):  remove_from_group(\"resize\")
+#			$resize/Polygon2D2.hide()
+
+
+func _gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed:
+				add_to_group(\"held\")
+				if global.grp(\"props\"):
+	#				global.grp_clear(\"marked\")
+	#				add_to_group(\"marked\")
+					global.grp(\"props\").open(self)
+#					$resize/Polygon2D2.show()
+					self_modulate.a = 0.1
+
+
+#func _on_resize_gui_input(event):
+#	if event is InputEventMouseButton:
+#		if event.button_index == BUTTON_LEFT:
+#			if event.pressed:
+#				global.grp(\"props\").open_form_canvas(self)
+#				add_to_group(\"resize\")
+#				global.grp_clear(\"resize\")
+#				add_to_group(\"resize\")
+
+
+"
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="Shape" type="ColorRect"]
+self_modulate = Color( 1, 1, 1, 0.301961 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 382.0
+margin_top = 140.0
+margin_right = 511.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 3, 3 )
+rect_pivot_offset = Vector2( 64.8588, 46.1533 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0, 0, 0, 1 )
+script = SubResource( 1 )
+_sections_unfolded = [ "Focus", "Material", "Mouse", "Rect", "Script", "Visibility", "custom_styles" ]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+show_behind_parent = true
+polygon = PoolVector2Array( 67.4099, -6.07394, 126.894, 3.25684, 133.892, 54.5763, 125.727, 94.2322, 60.4118, 101.23, 2.0943, 91.8995, -6.07016, 40.5801, 3.26065, 4.42319 )
+uv = PoolVector2Array(  )
+splits = PoolIntArray(  )
+color = Color( 0.533333, 0.262745, 0.262745, 1 )
+vertex_colors = PoolColorArray(  )
+offset = Vector2( 0, 0 )
+antialiased = false
+texture = null
+texture_offset = Vector2( 0, 0 )
+texture_scale = Vector2( 1, 1 )
+texture_rotation_degrees = 0.0
+skeleton = NodePath("")
+invert_enable = false
+invert_border = 100.0
+bones = [  ]
+_sections_unfolded = [ "Invert", "Script", "Skeleton", "Texture", "Transform", "Visibility", "polygon" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+_sections_unfolded = [ "Script" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 3 )
+_sections_unfolded = [ "shape" ]
+

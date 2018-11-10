@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Polygon.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 75.0927, 56.1665 )
+
+[node name="Polygon" type="StaticBody2D"]
+position = Vector2( 96.9998, 76.9999 )
+input_pickable = true
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Pickable", "Script", "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+_sections_unfolded = [ "Transform", "shape" ]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( -66.4094, -47.338 )
+polygon = PoolVector2Array( 67.4099, -6.07394, 99.6711, -4.45534, 126.894, 3.25684, 132.967, 23.3328, 133.892, 54.5763, 132.466, 74.9036, 125.727, 94.2322, 98.4194, 98.9365, 60.4118, 101.23, 29.0742, 99.4372, 2.0943, 91.8995, -3.22011, 69.6463, -6.07016, 40.5801, -3.22011, 20.579, 3.26065, 4.42319, 28.0728, -2.45259 )
+uv = PoolVector2Array(  )
+splits = PoolIntArray(  )
+color = Color( 0.533333, 0.262745, 0.262745, 1 )
+vertex_colors = PoolColorArray(  )
+offset = Vector2( 0, 0 )
+antialiased = false
+texture = null
+texture_offset = Vector2( 0, 0 )
+texture_scale = Vector2( 1, 1 )
+texture_rotation_degrees = 0.0
+skeleton = NodePath("")
+invert_enable = false
+invert_border = 100.0
+bones = [  ]
+_sections_unfolded = [ "Invert", "Material", "Pause", "Script", "Skeleton", "Texture", "Transform", "Visibility", "Z Index" ]
+
+[connection signal="mouse_entered" from="." to="." method="_on_Polygon_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_Polygon_mouse_exited"]
