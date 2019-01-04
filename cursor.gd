@@ -1,8 +1,11 @@
 extends Polygon2D
 
-#func _process(delta):
-#	update()
+func _process(delta):
+	velocity *= 0.5
+	$"../tail".points[0] = position
+	$"../tail".points[1] = $"../hand".position
 
+var velocity = Vector2(0,0)
 
 #func _draw():
 #
@@ -17,7 +20,7 @@ extends Polygon2D
 #		get_global_transform().affine_inverse() * get_parent().global_position, \
 #		Color(0.5, 0.5, 0.5), 3 )
 
-func _input(event):	
-#	if event is InputEventMouseMotion:
-#		position += event.position
-	update()
+#func _input(event):	
+##	if event is InputEventMouseMotion:
+##		position += event.position
+#	update()

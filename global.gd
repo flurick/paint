@@ -11,11 +11,10 @@ func grp(group_name, limit_to_one=true):
 	else:
 		return null
 
-func grp_clear(group_name):
-	pass
-	#fixme: node is a string?
+func grp_clear(grp):
+	get_tree().call_group(grp, "remove_from_group", grp )
 #	for node in get_tree().get_nodes_in_group(group_name):
-#		name.remove_from_group(group_name)
+#		node.remove_from_group(group_name)
 
 
 var layer = {}
@@ -23,6 +22,7 @@ func _ready():
 	for i in range(1, 21):
 		var layer_name = ProjectSettings.get_setting( str("layer_names/2d_physics/layer_", i) )
 		layer[layer_name] = i-1
+	get_tree().get_root().set_physics_object_picking(true)
 
 #func _input(event):
 #	print(event.as_text())

@@ -14,6 +14,12 @@ var is_cursor_active = true
 
 func _input(event):
 	
+	if event.is_action("move_jump") and is_cursor_active:
+		#todo: 3d raytracing?
+		global.grp_clear("held")
+		if $cursor/RayCast2D.is_colliding():
+			$cursor/RayCast2D.get_collider().add_to_group("held")
+	
 	if event.is_action("super_mode") and event.pressed:
 		if super_mode: 
 			#enter normal mode
@@ -44,6 +50,8 @@ func show_layer_mask():
 
 func _process(delta):
 	
+	print( is_on_ceiling(), is_on_floor() )
+	
 	if super_mode:
 		 move_in_super_mode(delta)
 	else: 
@@ -52,9 +60,10 @@ func _process(delta):
 	if is_cursor_active:
 		$cursor.position.y += Input.get_joy_axis(0, JOY_AXIS_4) * cursor_speed
 		$cursor.position.x += Input.get_joy_axis(0, JOY_AXIS_3) * cursor_speed
-		
-		if global.grp("held"):
-			global.grp("held").move_and_slide($cursor.position)
+		$cursor.velocity.y += Input.get_joy_axis(0, JOY_AXIS_4) * cursor_speed
+		$cursor.velocity.x += Input.get_joy_axis(0, JOY_AXIS_3) * cursor_speed
+		if global.grp("held") and global.grp("held").has_method("push"):
+			global.grp("held").push($cursor)
 
 
 
@@ -68,11 +77,6 @@ func move_in_super_mode(delta):
 	if Input.is_action_pressed("move_down"):
 		velocity += Vector2(0,move_speed)
 	
-	if Input.is_action_pressed("move_jump"):
-		#todo: 3d raytracing?
-		if $cursor/RayCast2D.is_colliding():
-			$cursor/RayCast2D.get_collider().add_to_group("held")
-		
 	velocity *= 0.9
 	move_and_slide(velocity*delta)
 
